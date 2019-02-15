@@ -24,7 +24,9 @@
 #define YOLODLL_API
 #endif
 #endif
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 double what_time_is_it_now();
 int *read_map(char *filename);
 void shuffle(void *arr, size_t n, size_t size);
@@ -87,8 +89,9 @@ int int_index(int *a, int val, int n);
 #ifdef NOT_PRINT_CFG
 #define fprintf(...)
 #define printf(...)
-
 #endif
-
+#ifdef	__cplusplus
+}
+#endif
 #endif
 

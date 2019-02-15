@@ -15,7 +15,9 @@
 #define YOLODLL_API
 #endif
 #endif
-
+#ifdef	__cplusplus
+extern "C" {
+#endif
 typedef struct{
     char *key;
     char *val;
@@ -34,11 +36,13 @@ float option_find_float(list *l, char *key, float def);
 float option_find_float_quiet(list *l, char *key, float def);
 void option_unused(list *l);
 
-typedef struct {
-	int classes;
-	char **names;
-} metadata;
+//typedef struct {
+//	int classes;
+//	char **names;
+//} metadata;
 
-YOLODLL_API metadata get_metadata(char *file);
-
+//YOLODLL_API metadata get_metadata(char *file);
+#ifdef	__cplusplus
+}
+#endif
 #endif

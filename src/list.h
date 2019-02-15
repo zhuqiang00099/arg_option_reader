@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
-
+#ifdef	__cplusplus
+extern "C" {
+#endif
 typedef struct node{
     void *val;
     struct node *next;
@@ -23,5 +25,7 @@ void **list_to_array(list *l);
 void free_list(list *l);
 void free_list_contents(list *l);
 void free_list_contents_kvp(list *l);
-
+#ifdef	__cplusplus
+}
+#endif
 #endif
