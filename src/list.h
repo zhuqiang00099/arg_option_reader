@@ -16,7 +16,7 @@ typedef struct list{
 } list;
 
 list *make_list();
-int list_find(list *l, void *val);
+//int list_find(list *l, void *val);
 
 void list_insert(list *, void *);
 

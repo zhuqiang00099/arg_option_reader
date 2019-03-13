@@ -4,6 +4,41 @@
 #include "option_list.h"
 #include "utils.h"
 
+list *read_cfg(const char *filename)
+{
+	FILE *file = fopen(filename, "r");
+	if (file == 0) file_error(filename);
+	char *line;
+	int nu = 0;
+	list *sections = make_list();
+	section *current = 0;
+	while ((line = fgetl(file)) != 0) {
+		++nu;
+		strip(line);
+		switch (line[0]) {
+		case '[':
+			current = malloc(sizeof(section));
+			list_insert(sections, current);
+			current->options = make_list();
+			current->type = line;
+			break;
+		case '\0':
+		case '#':
+		case ';':
+			free(line);
+			break;
+		default:
+			if (!read_option(line, current->options)) {
+				fprintf(stderr, "Config file error line %d, could parse: %s\n", nu, line);
+				free(line);
+			}
+			break;
+		}
+	}
+	fclose(file);
+	return sections;
+}
+
 list *read_data_cfg(char *filename)
 {
     FILE *file = fopen(filename, "r");
@@ -139,4 +174,13 @@ float option_find_float(list *l, char *key, float def)
     if(v) return atof(v);
     fprintf(stderr, "%s: Using default '%lf'\n", key, def);
     return def;
+}
+
+void** option_find_array(list* l, char* key,int* size)
+{
+	char *v = option_find(l, key);
+	if (!v) return 0;
+	list* strs = split_str(v, ',');
+	*size = strs->size;
+	return list_to_array(strs);
 }

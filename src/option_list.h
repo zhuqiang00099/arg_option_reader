@@ -2,19 +2,6 @@
 #define OPTION_LIST_H
 #include "list.h"
 
-#ifdef YOLODLL_EXPORTS
-#if defined(_MSC_VER)
-#define YOLODLL_API __declspec(dllexport) 
-#else
-#define YOLODLL_API __attribute__((visibility("default")))
-#endif
-#else
-#if defined(_MSC_VER)
-#define YOLODLL_API
-#else
-#define YOLODLL_API
-#endif
-#endif
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -24,7 +11,14 @@ typedef struct{
     int used;
 } kvp;
 
+typedef struct {
+	char *type;
+	list *options;
+}section;
 
+
+
+list *read_cfg(const char *filename);
 list *read_data_cfg(char *filename);
 int read_option(char *s, list *options);
 void option_insert(list *l, char *key, char *val);
@@ -34,7 +28,9 @@ int option_find_int(list *l, char *key, int def);
 int option_find_int_quiet(list *l, char *key, int def);
 float option_find_float(list *l, char *key, float def);
 float option_find_float_quiet(list *l, char *key, float def);
+void** option_find_array(list* l, char* key,int *size);
 void option_unused(list *l);
+
 
 //typedef struct {
 //	int classes;
